@@ -29,4 +29,6 @@ public class Measurement {
     private State brakes;
     @Enumerated(EnumType.STRING)
     private State gasEmisions;
+    @Enumerated(EnumType.STRING)
+    private State frontWheelAssembly;
 }
