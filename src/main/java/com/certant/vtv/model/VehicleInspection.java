@@ -24,6 +24,7 @@ public class VehicleInspection {
     private Timestamp dateInspection = Timestamp.from(Instant.now());;
     @Enumerated(EnumType.STRING)
     private State state;
+    private Double cost;
     @OneToOne(mappedBy = "vehicleInspection", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Observation observation;
     @OneToOne(mappedBy = "vehicleInspection", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
