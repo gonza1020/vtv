@@ -12,4 +12,7 @@ import lombok.Setter;
 @Setter
 public class VehicleDto {
     private String licensePlate;
+    private String brand;
+    private String model;
+    private String owner;
 }

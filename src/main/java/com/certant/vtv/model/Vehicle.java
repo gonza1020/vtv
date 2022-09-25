@@ -21,7 +21,6 @@ public class Vehicle {
     private String licensePlate;
     private String brand;
     private String model;
-
     @ManyToOne()
     @JoinColumn(name = "costumer_id")
     private Costumer costumer;
