@@ -1,7 +1,7 @@
 package com.certant.vtv.model;
 
 
-import com.certant.vtv.utils.State;
+import com.certant.vtv.utils.Condition;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,16 +19,17 @@ public class Measurement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JoinColumn(name = "inspection_id")
-    @OneToOne(fetch = FetchType.LAZY)
+
+    @JoinColumn(name = "inspection_id",referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.EAGER)
     private VehicleInspection vehicleInspection;
 
     @Enumerated(EnumType.STRING)
-    private State suspension;
+    private Condition suspension;
     @Enumerated(EnumType.STRING)
-    private State brakes;
+    private Condition brakes;
     @Enumerated(EnumType.STRING)
-    private State gasEmisions;
+    private Condition gasEmisions;
     @Enumerated(EnumType.STRING)
-    private State frontWheelAssembly;
+    private Condition frontWheelAssembly;
 }

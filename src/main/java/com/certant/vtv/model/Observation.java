@@ -1,18 +1,17 @@
 package com.certant.vtv.model;
 
 
-import com.certant.vtv.utils.State;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.certant.vtv.utils.Condition;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Stack;
 
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Observation {
 
     @Id
@@ -20,21 +19,21 @@ public class Observation {
     private Long id;
     @Enumerated(EnumType.STRING)
 
-    @JoinColumn(name = "inspection_id")
-    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inspection_id",referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.EAGER)
     private VehicleInspection vehicleInspection;
 
-    private State lights;
+    private Condition lights;
     @Enumerated(EnumType.STRING)
-    private State licensePlate;
+    private Condition licensePlate;
     @Enumerated(EnumType.STRING)
-    private State mirrors;
+    private Condition mirrors;
     @Enumerated(EnumType.STRING)
-    private State chassis;
+    private Condition chassis;
     @Enumerated(EnumType.STRING)
-    private State glasses;
+    private Condition glasses;
     @Enumerated(EnumType.STRING)
-    private State securityVehicle;
+    private Condition securityVehicle;
     private String description;
 
 }
