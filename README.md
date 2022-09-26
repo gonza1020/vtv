@@ -5,6 +5,7 @@ Prerequisitos
 
  - Git
  - Java 18
+ - Maven
  - IDE para Java
  - MySQL5
 
