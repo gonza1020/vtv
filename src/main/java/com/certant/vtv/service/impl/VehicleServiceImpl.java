@@ -1,6 +1,7 @@
 package com.certant.vtv.service.impl;
 
 import com.certant.vtv.dto.VehicleDto;
+import com.certant.vtv.dto.VehicleInspectionDto;
 import com.certant.vtv.model.Vehicle;
 import com.certant.vtv.repository.VehicleRepository;
 import com.certant.vtv.service.VehicleService;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class VehicleServiceImpl implements VehicleService {
 
+    private VehicleInspectionServiceImpl vehicleInspectionService;
     private VehicleRepository vehicleRepository;
     private ModelMapper modelMapper;
 
@@ -26,11 +28,14 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public Vehicle getVehicle(Long id) {
+    public VehicleDto getVehicle(Long id) {
 
-        Optional<Vehicle> vehicle = vehicleRepository.findById(id);
+        Vehicle vehicle = vehicleRepository.findById(id).orElse(null);
 
-        return vehicle.orElse(null);
+        VehicleDto vehicleDto = modelMapper.map(vehicle, VehicleDto.class);
+        vehicleDto.setOwner(vehicle.getCostumer().getName() + " " + vehicle.getCostumer().getLastName());
+
+        return vehicleDto;
     }
 
     @Override
@@ -54,4 +59,18 @@ public class VehicleServiceImpl implements VehicleService {
     public void deleteVehicle(Long id) {
         vehicleRepository.deleteById(id);
     }
+
+    public List<VehicleDto> getVehiclesCondition(String condition){
+        List<VehicleInspectionDto> vehicleInspectionDtos = vehicleInspectionService.getAll();
+        List<VehicleDto> vehicleDtos = new ArrayList<>();
+        List<VehicleInspectionDto> vehicleInspectionDtos1 = vehicleInspectionDtos.stream()
+                .filter(vehicleInspectionDto -> vehicleInspectionDto.getInspectionState().toString().equals(condition.toUpperCase()))
+                .toList();
+
+        vehicleInspectionDtos1.forEach(vehicleInspectionDto -> {
+            vehicleDtos.add(vehicleInspectionDto.getVehicleDto());
+        });
+        return vehicleDtos;
+    }
+
 }
