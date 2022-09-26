@@ -3,7 +3,7 @@ package com.certant.vtv.service.impl;
 import com.certant.vtv.model.Measurement;
 import com.certant.vtv.repository.MeasurementRepository;
 import com.certant.vtv.service.MeasurementService;
-import com.certant.vtv.utils.State;
+import com.certant.vtv.utils.Condition;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,10 +43,9 @@ public class MeasureServiceImpl implements MeasurementService {
         measurementRepository.deleteById(id);
     }
 
-    public HashMap<String, State> checkMeasurements(Long id){
+    public HashMap<String, Condition> checkMeasurements(Measurement measurement){
 
-        Measurement measurement  = getMeasurement(id);
-        HashMap<String, State > measurements = new HashMap<>();
+        HashMap<String, Condition> measurements = new HashMap<>();
         measurements.put("brakes",measurement.getBrakes());
         measurements.put("suspension", measurement.getSuspension());
         measurements.put("gas-emission",measurement.getGasEmisions());
@@ -54,23 +53,23 @@ public class MeasureServiceImpl implements MeasurementService {
         return measurements;
     }
 
-    public State validateMeasurements(HashMap<String,State> measurements){
+    public Condition validateMeasurements(HashMap<String, Condition> measurements){
         int rejected = 0;
         int conditional = 0;
         for(String meas : measurements.keySet()){
-            if(measurements.get(meas) == State.CONDITIONAL ){
+            if(measurements.get(meas) == Condition.CONDITIONAL ){
                 conditional += 1;
-            }else if (measurements.get(meas) == State.REJECTED) {
+            }else if (measurements.get(meas) == Condition.REJECTED) {
                 rejected += 1;
                 break;
             }
         }
         if (rejected != 0){
-            return State.REJECTED;
+            return Condition.REJECTED;
         }
         if(conditional != 0){
-            return State.CONDITIONAL;
+            return Condition.CONDITIONAL;
         }
-        return  State.APPROVED;
+        return  Condition.APPROVED;
     }
 }

@@ -27,20 +27,20 @@ public class ObservationController {
 
     @PutMapping("/{id}")
     ResponseEntity<Observation> updateObservation( @PathVariable  Long id,@RequestBody  Observation observation){
-        return new ResponseEntity<>(observationService.updateObservation(id,observation), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(observationService.updateObservation(id,observation), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     ResponseEntity<Observation> getCostumer( @PathVariable  Long id){
-        return new ResponseEntity<>(observationService.getObservation(id), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(observationService.getObservation(id), HttpStatus.OK);
     }
 
     @GetMapping()
     ResponseEntity<List<Observation>> getAll(){
-        return new ResponseEntity<>(observationService.getAll(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(observationService.getAll(), HttpStatus.OK);
     }
 
-    @DeleteMapping()
+    @DeleteMapping("{id}")
     ResponseEntity<?> deleteCostumer(@PathVariable Long id){
         observationService.deleteObservation(id);
         return ResponseEntity.noContent().build();

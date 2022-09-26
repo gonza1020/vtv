@@ -26,20 +26,20 @@ public class MeasurementController {
 
     @PutMapping("/{id}")
     ResponseEntity<Measurement> updateMeasurement( @PathVariable  Long id,@RequestBody  Measurement measurement){
-        return new ResponseEntity<>(measurementService.updateMeasurement(id,measurement), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(measurementService.updateMeasurement(id,measurement), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     ResponseEntity<Measurement> getMeasurement( @PathVariable  Long id){
-        return new ResponseEntity<>(measurementService.getMeasurement(id), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(measurementService.getMeasurement(id), HttpStatus.OK);
     }
 
     @GetMapping()
     ResponseEntity<List<Measurement>> getAll(){
-        return new ResponseEntity<>(measurementService.getAll(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(measurementService.getAll(), HttpStatus.OK);
     }
 
-    @DeleteMapping()
+    @DeleteMapping("{id}")
     ResponseEntity<?> deleteMeasurement(@PathVariable Long id){
         measurementService.deleteMeasurement(id);
         return ResponseEntity.noContent().build();

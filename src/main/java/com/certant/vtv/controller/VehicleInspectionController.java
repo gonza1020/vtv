@@ -1,10 +1,12 @@
 package com.certant.vtv.controller;
 
 
+import com.certant.vtv.dto.VehicleInspectionDto;
 import com.certant.vtv.model.Costumer;
 import com.certant.vtv.model.VehicleInspection;
 import com.certant.vtv.service.CostumerService;
 import com.certant.vtv.service.VehicleInspectionService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,28 +21,39 @@ public class VehicleInspectionController {
 
     private VehicleInspectionService vehicleInspectionService;
 
+    @Operation(summary = "Create vehicle inspection")
+
     @PostMapping()
-    ResponseEntity<VehicleInspection> createCostumer(@RequestBody VehicleInspection vehicleInspection){
+    ResponseEntity<VehicleInspection> createVehicleInspection(@RequestBody VehicleInspection vehicleInspection){
         return new ResponseEntity<>(vehicleInspectionService.createVehicleInspection(vehicleInspection), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Update vehicle inspection")
+
     @PutMapping("/{id}")
-    ResponseEntity<VehicleInspection> updateCostumer( @PathVariable  Long id,@RequestBody  VehicleInspection vehicleInspection){
-        return new ResponseEntity<>(vehicleInspectionService.updateVehicleInspection(id, vehicleInspection), HttpStatus.ACCEPTED);
+    ResponseEntity<VehicleInspection> updateVehicleInspection( @PathVariable  Long id,@RequestBody  VehicleInspection vehicleInspection){
+        return new ResponseEntity<>(vehicleInspectionService.updateVehicleInspection(id, vehicleInspection), HttpStatus.OK);
     }
+
+    @Operation(summary = "get vehicle inspection")
+
 
     @GetMapping("/{id}")
-    ResponseEntity<VehicleInspection> getCostumer( @PathVariable  Long id){
-        return new ResponseEntity<>(vehicleInspectionService.getVehicleInspection(id), HttpStatus.ACCEPTED);
+    ResponseEntity<VehicleInspectionDto> getVehicleInspection(@PathVariable  Long id){
+        return new ResponseEntity<>(vehicleInspectionService.getVehicleInspection(id), HttpStatus.OK);
     }
+
+    @Operation(summary = "get all vehicle inspections")
 
     @GetMapping()
-    ResponseEntity<List<VehicleInspection>> getAll(){
-        return new ResponseEntity<>(vehicleInspectionService.getAll(), HttpStatus.ACCEPTED);
+    ResponseEntity<List<VehicleInspectionDto>> getAll(){
+        return new ResponseEntity<>(vehicleInspectionService.getAll(), HttpStatus.OK);
     }
 
-    @DeleteMapping()
-    ResponseEntity<?> deleteCostumer(@PathVariable Long id){
+    @Operation(summary = "delete vehicle inspection")
+
+    @DeleteMapping("{id}")
+    ResponseEntity<?> deleteVehicleInspection(@PathVariable Long id){
         vehicleInspectionService.deleteVehicleInspection(id);
         return ResponseEntity.noContent().build();
     }
