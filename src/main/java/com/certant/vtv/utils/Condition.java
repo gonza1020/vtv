@@ -1,6 +1,6 @@
 package com.certant.vtv.utils;
 
-public enum State {
+public enum Condition {
     APPROVED,
     CONDITIONAL,
     REJECTED
