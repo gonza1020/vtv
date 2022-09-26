@@ -3,13 +3,12 @@ package com.certant.vtv.service.impl;
 import com.certant.vtv.model.Observation;
 import com.certant.vtv.repository.ObservationRepository;
 import com.certant.vtv.service.ObservationService;
-import com.certant.vtv.utils.State;
+import com.certant.vtv.utils.Condition;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -45,10 +44,9 @@ public class ObservationServiceImpl implements ObservationService {
     }
 
 
-    public HashMap<String, State> checkObservations(Long id){
+    public HashMap<String, Condition> checkObservations(Observation observation){
 
-        Observation observation = getObservation(id);
-        HashMap<String, State > observations = new HashMap<>();
+        HashMap<String, Condition> observations = new HashMap<>();
         observations.put("chassis",observation.getChassis());
         observations.put("lights", observation.getLights());
         observations.put("license-plate",observation.getLicensePlate());
@@ -58,23 +56,23 @@ public class ObservationServiceImpl implements ObservationService {
         return observations;
     }
 
-    public State validateObservations(HashMap<String,State> observations){
+    public Condition validateObservations(HashMap<String, Condition> observations){
         int rejected = 0;
         int conditional = 0;
         for(String obs : observations.keySet()){
-            if(observations.get(obs) == State.CONDITIONAL ){
+            if(observations.get(obs) == Condition.CONDITIONAL ){
                 conditional += 1;
-            }else if (observations.get(obs) == State.REJECTED) {
+            }else if (observations.get(obs) == Condition.REJECTED) {
                 rejected += 1;
                 break;
             }
         }
         if (rejected != 0){
-            return State.REJECTED;
+            return Condition.REJECTED;
         }
         if(conditional != 0){
-            return State.CONDITIONAL;
+            return Condition.CONDITIONAL;
         }
-        return  State.APPROVED;
+        return  Condition.APPROVED;
     }
 }
