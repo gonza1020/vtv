@@ -1,19 +1,18 @@
 package com.certant.vtv.model;
 
 
-import com.certant.vtv.dto.PersonDto;
-import com.certant.vtv.dto.VehicleDto;
-import com.certant.vtv.utils.State;
+import com.certant.vtv.utils.Condition;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class VehicleInspection {
@@ -21,18 +20,22 @@ public class VehicleInspection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Timestamp dateInspection = Timestamp.from(Instant.now());;
+    private LocalDate InspectionDate;
+    private LocalDate expirationDate;
     @Enumerated(EnumType.STRING)
-    private State state;
+    private Condition state;
     private Double cost;
-    @OneToOne(mappedBy = "vehicleInspection", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "vehicleInspection", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Observation observation;
-    @OneToOne(mappedBy = "vehicleInspection", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+
+    @OneToOne(mappedBy = "vehicleInspection", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Measurement measurement;
 
-    @OneToOne(mappedBy = "vehicleInspection", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ManyToOne()
+    @JoinColumn(name = "inspector_id")
     private Inspector inspector;
-    @ManyToOne
+
+    @ManyToOne()
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
