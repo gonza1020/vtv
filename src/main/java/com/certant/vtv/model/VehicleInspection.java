@@ -25,17 +25,18 @@ public class VehicleInspection {
     @Enumerated(EnumType.STRING)
     private Condition state;
     private Double cost;
-    @OneToOne(mappedBy = "vehicleInspection", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = Observation.class,mappedBy = "vehicleInspection", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Observation observation;
 
-    @OneToOne(mappedBy = "vehicleInspection", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = Measurement.class,mappedBy = "vehicleInspection", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Measurement measurement;
 
-    @ManyToOne()
+
+    @ManyToOne(targetEntity = Inspector.class)
     @JoinColumn(name = "inspector_id")
     private Inspector inspector;
 
-    @ManyToOne()
+    @ManyToOne(targetEntity = Vehicle.class)
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 

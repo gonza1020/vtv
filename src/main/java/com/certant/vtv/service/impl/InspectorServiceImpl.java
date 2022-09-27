@@ -41,6 +41,10 @@ public class InspectorServiceImpl implements InspectorService {
 
     @Override
     public void deleteInspector(Long id) {
-        inspectorRepository.deleteById(id);
+
+        Inspector inspector = inspectorRepository.findById(id).orElse(null);
+
+        assert inspector != null;
+        inspectorRepository.delete(inspector);
     }
 }

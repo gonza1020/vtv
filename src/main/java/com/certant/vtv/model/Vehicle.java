@@ -23,12 +23,11 @@ public class Vehicle {
     private String licensePlate;
     private String brand;
     private String model;
-    @JsonIgnore
-    @ManyToOne()
+    @ManyToOne(targetEntity = Costumer.class)
     @JoinColumn(name = "costumer_id")
     private Costumer costumer;
     @JsonIgnore
-    @OneToMany(mappedBy = "vehicle")
+    @OneToMany(targetEntity = VehicleInspection.class,mappedBy = "vehicle")
     private List<VehicleInspection> vehicleInspection;
 
 }

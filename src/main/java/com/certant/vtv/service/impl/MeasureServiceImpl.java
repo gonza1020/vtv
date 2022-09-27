@@ -40,7 +40,11 @@ public class MeasureServiceImpl implements MeasurementService {
 
     @Override
     public void deleteMeasurement(Long id) {
-        measurementRepository.deleteById(id);
+
+        Measurement measurement = measurementRepository.findById(id).orElse(null);
+
+        assert measurement != null;
+        measurementRepository.delete(measurement);
     }
 
     public HashMap<String, Condition> checkMeasurements(Measurement measurement){

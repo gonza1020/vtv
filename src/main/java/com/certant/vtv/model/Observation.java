@@ -2,6 +2,7 @@ package com.certant.vtv.model;
 
 
 import com.certant.vtv.utils.Condition;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,8 +20,9 @@ public class Observation {
     private Long id;
     @Enumerated(EnumType.STRING)
 
+    @JsonIgnore
+    @OneToOne(targetEntity = VehicleInspection.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "inspection_id",referencedColumnName = "id")
-    @OneToOne(fetch = FetchType.EAGER)
     private VehicleInspection vehicleInspection;
 
     private Condition lights;

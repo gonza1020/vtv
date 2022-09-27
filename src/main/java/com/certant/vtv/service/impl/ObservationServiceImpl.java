@@ -40,7 +40,11 @@ public class ObservationServiceImpl implements ObservationService {
 
     @Override
     public void deleteObservation(Long id) {
-        observationRepository.deleteById(id);
+
+        Observation observation = observationRepository.findById(id).orElse(null);
+
+        assert observation != null;
+        observationRepository.delete(observation);
     }
 
 

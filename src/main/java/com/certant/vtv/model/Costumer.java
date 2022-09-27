@@ -1,6 +1,7 @@
 package com.certant.vtv.model;
 
 import com.certant.vtv.utils.CostumerType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,8 @@ public class Costumer extends Person{
 
     @Enumerated(EnumType.STRING)
     private CostumerType costumerType;
-    @OneToMany(mappedBy = "costumer", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(targetEntity = Vehicle.class, mappedBy = "costumer", cascade = CascadeType.ALL)
     private List<Vehicle> vehicles;
 
 }

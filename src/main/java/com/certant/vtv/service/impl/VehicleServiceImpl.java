@@ -57,7 +57,10 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public void deleteVehicle(Long id) {
-        vehicleRepository.deleteById(id);
+
+        Vehicle vehicle = vehicleRepository.findById(id).orElse(null);
+        assert vehicle != null;
+        vehicleRepository.delete(vehicle);
     }
 
     public List<VehicleDto> getVehiclesCondition(String condition){

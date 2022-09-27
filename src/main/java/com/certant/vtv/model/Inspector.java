@@ -1,5 +1,6 @@
 package com.certant.vtv.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @Setter
 public class Inspector extends Person{
 
-    @OneToMany(mappedBy = "inspector")
+    @JsonIgnore
+    @OneToMany(targetEntity = VehicleInspection.class, mappedBy = "inspector")
     private List<VehicleInspection> vehicleInspection;
 }

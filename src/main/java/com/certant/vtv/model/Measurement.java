@@ -2,6 +2,7 @@ package com.certant.vtv.model;
 
 
 import com.certant.vtv.utils.Condition;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +21,9 @@ public class Measurement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
+    @OneToOne(targetEntity = VehicleInspection.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "inspection_id",referencedColumnName = "id")
-    @OneToOne(fetch = FetchType.EAGER)
     private VehicleInspection vehicleInspection;
 
     @Enumerated(EnumType.STRING)

@@ -39,6 +39,9 @@ public class CostumerServiceImpl implements CostumerService {
 
     @Override
     public void deleteCostumer(Long id) {
-        costumerRepository.deleteById(id);
+        Costumer costumer = costumerRepository.findById(id).orElse(null);
+
+        assert costumer != null;
+        costumerRepository.delete(costumer);
     }
 }

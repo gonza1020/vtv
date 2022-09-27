@@ -83,7 +83,9 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
 
     @Override
     public void deleteVehicleInspection(Long id) {
-        vehicleInspectionRepository.deleteById(id);
+        VehicleInspection vehicleInspection = vehicleInspectionRepository.findById(id).orElse(null);
+        assert vehicleInspection != null;
+        vehicleInspectionRepository.delete(vehicleInspection);
     }
 
     public void setState(Observation observation, Measurement measurement, VehicleInspection vehicleInspection){
