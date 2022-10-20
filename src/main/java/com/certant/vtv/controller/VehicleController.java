@@ -1,6 +1,7 @@
 package com.certant.vtv.controller;
 
 import com.certant.vtv.dto.VehicleDto;
+import com.certant.vtv.model.Car;
 import com.certant.vtv.model.Vehicle;
 import com.certant.vtv.service.impl.VehicleServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,8 +23,14 @@ public class VehicleController {
 
     @Operation(summary = "create vehicle")
     @PostMapping()
-    ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle vehicle){
+    ResponseEntity<Vehicle> createVehicle(@Valid @RequestBody Vehicle vehicle){
         return new ResponseEntity<>(vehicleService.createVehicle(vehicle), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "create car")
+    @PostMapping("/car" )
+    ResponseEntity<Car> createCar(@Valid @RequestBody Car car){
+        return new ResponseEntity<>(vehicleService.createCar(car),HttpStatus.CREATED);
     }
 
     @Operation(summary = "update vehicle")

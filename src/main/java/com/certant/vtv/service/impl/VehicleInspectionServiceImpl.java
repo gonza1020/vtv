@@ -33,10 +33,7 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
         Measurement measurement = vehicleInspection.getMeasurement();
         setState(observation,measurement,vehicleInspection);
         vehicleInspection.setInspectionDate(LocalDate.now());
-        if(vehicleInspection.getState() == Condition.APPROVED){
-            vehicleInspection.setExpirationDate(LocalDate.now().plusYears(1));
-            //TODO: SOME METHOD TO PRINT THE TICKET
-        }
+        setExpirationDate(vehicleInspection);
         return vehicleInspectionRepository.save(vehicleInspection);
     }
 
@@ -88,16 +85,27 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
         vehicleInspectionRepository.delete(vehicleInspection);
     }
 
-    public void setState(Observation observation, Measurement measurement, VehicleInspection vehicleInspection){
-       Condition obsState = observationService.validateObservations(observationService.checkObservations(observation));
-       Condition measState = measureService.validateMeasurements(measureService.checkMeasurements(measurement));
+    private void setState(Observation observation, Measurement measurement, VehicleInspection vehicleInspection){
+       Condition obsCondition = observationService.validateObservations(observationService.checkObservations(observation));
+       Condition measCondition = measureService.validateMeasurements(measureService.checkMeasurements(measurement));
 
-       if(obsState == Condition.APPROVED && measState == Condition.APPROVED){
-           vehicleInspection.setState(Condition.APPROVED);
-       } else if (obsState == Condition.REJECTED || measState == Condition.REJECTED) {
-           vehicleInspection.setState(Condition.REJECTED);
+       if(obsCondition == Condition.APPROVED && measCondition == Condition.APPROVED){
+           vehicleInspection.setCondition(Condition.APPROVED);
+       } else if (obsCondition == Condition.REJECTED || measCondition == Condition.REJECTED) {
+           vehicleInspection.setCondition(Condition.REJECTED);
        }else{
-           vehicleInspection.setState(Condition.CONDITIONAL);
+           vehicleInspection.setCondition(Condition.CONDITIONAL);
        }
+    }
+    
+    
+    // This method calculate the expiration date of the verification
+    private void setExpirationDate(VehicleInspection vehicleInspection){
+        if(vehicleInspection.getCondition() == Condition.APPROVED){
+            vehicleInspection.setExpirationDate(LocalDate.now().plusYears(1));
+            //TODO: SOME METHOD TO PRINT THE TICKET
+        } else if (vehicleInspection.getCondition() == Condition.CONDITIONAL) {
+            vehicleInspection.setExpirationDate(LocalDate.now().plusMonths(2));
+        }
     }
 }

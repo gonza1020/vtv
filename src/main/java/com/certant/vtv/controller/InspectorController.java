@@ -1,7 +1,6 @@
 package com.certant.vtv.controller;
 
-import com.certant.vtv.dto.InspectorDto;
-import com.certant.vtv.model.Costumer;
+
 import com.certant.vtv.model.Inspector;
 import com.certant.vtv.service.InspectorService;
 import io.swagger.v3.oas.annotations.Operation;
