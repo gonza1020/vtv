@@ -20,11 +20,12 @@ public class VehicleInspection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate InspectionDate;
+    private LocalDate inspectionDate;
     private LocalDate expirationDate;
     @Enumerated(EnumType.STRING)
-    private Condition state;
+    private Condition condition;
     private Double cost;
+
     @OneToOne(targetEntity = Observation.class,mappedBy = "vehicleInspection", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Observation observation;
 
