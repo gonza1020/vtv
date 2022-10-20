@@ -1,3 +1,4 @@
+/*
 package com.certant.vtv.utils;
 
 import com.certant.vtv.dto.VehicleDto;
@@ -323,3 +324,4 @@ public class VehicleInspectionSeeder {
         vehicleInspectionService.createVehicleInspection(vehicleInspection9);
     }
 }
+*/
