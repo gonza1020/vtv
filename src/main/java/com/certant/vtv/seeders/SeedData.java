@@ -13,9 +13,14 @@ public class SeedData implements CommandLineRunner {
     private InspectorRepository inspectorRepository;
     private PersonSeeder personSeeder;
     private VehicleSeedData vehicleSeedData;
+    private VehicleDataSeeder vehicleDataSeeder;
+    private  TariffSeeder tariffSeeder;
 
     @Override
     public void run(String... args) throws Exception {
+
+        vehicleDataSeeder.createVehicles();
+        tariffSeeder.saveTariff();
         personSeeder.saveCostumer();
         personSeeder.saveInspector();
         vehicleSeedData.saveVehicles();
@@ -25,21 +30,4 @@ public class SeedData implements CommandLineRunner {
 
     }
 
-    private void saveInspector(){
-        if(inspectorRepository.count() == 0){
-            Inspector inspector = new Inspector();
-            inspector.setPhoneNumber("3777-123456");
-            inspector.setEmail("fabri@gmail.com");
-            inspector.setName("Fabricio");
-            inspector.setLastName("Perfetti");
-            inspectorRepository.save(inspector);
-
-            Inspector inspector1 = new Inspector();
-            inspector1.setPhoneNumber("3777-987654");
-            inspector1.setEmail("sergio@gmail.com");
-            inspector1.setName("Sergio");
-            inspector1.setLastName("Ramos");
-            inspectorRepository.save(inspector1);
-        }
-    }
 }

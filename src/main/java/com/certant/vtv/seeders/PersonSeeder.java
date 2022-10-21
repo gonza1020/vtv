@@ -24,12 +24,14 @@ public class PersonSeeder {
             pedro.setName("pedro");
             pedro.setEmail("pedro@gmail.com");
             pedro.setLastName("picapiedra");
+            pedro.setDni("12345678");
             pedro.setPhoneNumber("3777-123456");
             costumerRepository.save(pedro);
 
             Costumer santi = new Costumer(CostumerType.NORMAL,new ArrayList<>());
             santi.setName("Santi");
             santi.setEmail("santi@gmail.com");
+            santi.setDni("22345678");
             santi.setLastName("simon");
             santi.setPhoneNumber("3777-654321");
             costumerRepository.save(santi);
