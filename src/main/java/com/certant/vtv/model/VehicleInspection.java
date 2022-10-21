@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,18 +19,21 @@ import java.time.LocalDate;
 public class VehicleInspection {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
     private LocalDate inspectionDate;
     private LocalDate expirationDate;
     @Enumerated(EnumType.STRING)
-    private Condition condition;
+    private Condition conditionn;
     private Double cost;
 
-    @OneToOne(targetEntity = Observation.class,mappedBy = "vehicleInspection", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = Observation.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "observation_id",referencedColumnName = "id")
     private Observation observation;
 
-    @OneToOne(targetEntity = Measurement.class,mappedBy = "vehicleInspection", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "measurement_id",referencedColumnName = "id")
+    @OneToOne(targetEntity = Measurement.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Measurement measurement;
 
 

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class VehicleInspectionDto {
-    private Long id;
+    private String id;
     private LocalDate inspectionDate;
     private LocalDate expirationDate;
     private Condition inspectionState;

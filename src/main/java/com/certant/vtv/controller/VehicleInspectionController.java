@@ -1,6 +1,7 @@
 package com.certant.vtv.controller;
 
 
+import com.certant.vtv.dto.CreateVehicleInspectionDto;
 import com.certant.vtv.dto.VehicleInspectionDto;
 import com.certant.vtv.model.Costumer;
 import com.certant.vtv.model.VehicleInspection;
@@ -21,6 +22,7 @@ public class VehicleInspectionController {
 
     private VehicleInspectionService vehicleInspectionService;
 
+
     @Operation(summary = "Create vehicle inspection")
 
     @PostMapping()
@@ -28,10 +30,11 @@ public class VehicleInspectionController {
         return new ResponseEntity<>(vehicleInspectionService.createVehicleInspection(vehicleInspection), HttpStatus.CREATED);
     }
 
+
     @Operation(summary = "Update vehicle inspection")
 
     @PutMapping("/{id}")
-    ResponseEntity<VehicleInspection> updateVehicleInspection( @PathVariable  Long id,@RequestBody  VehicleInspection vehicleInspection){
+    ResponseEntity<VehicleInspection> updateVehicleInspection( @PathVariable  String id,@RequestBody  VehicleInspection vehicleInspection){
         return new ResponseEntity<>(vehicleInspectionService.updateVehicleInspection(id, vehicleInspection), HttpStatus.OK);
     }
 
@@ -39,7 +42,7 @@ public class VehicleInspectionController {
 
 
     @GetMapping("/{id}")
-    ResponseEntity<VehicleInspectionDto> getVehicleInspection(@PathVariable  Long id){
+    ResponseEntity<VehicleInspectionDto> getVehicleInspection(@PathVariable  String id){
         return new ResponseEntity<>(vehicleInspectionService.getVehicleInspection(id), HttpStatus.OK);
     }
 
@@ -53,7 +56,7 @@ public class VehicleInspectionController {
     @Operation(summary = "delete vehicle inspection")
 
     @DeleteMapping("{id}")
-    ResponseEntity<?> deleteVehicleInspection(@PathVariable Long id){
+    ResponseEntity<?> deleteVehicleInspection(@PathVariable String id){
         vehicleInspectionService.deleteVehicleInspection(id);
         return ResponseEntity.noContent().build();
     }

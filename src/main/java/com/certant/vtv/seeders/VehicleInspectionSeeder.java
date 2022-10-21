@@ -1,13 +1,11 @@
 /*
-package com.certant.vtv.utils;
+package com.certant.vtv.seeders;
 
-import com.certant.vtv.dto.VehicleDto;
 import com.certant.vtv.model.*;
 import com.certant.vtv.repository.*;
 import com.certant.vtv.service.VehicleService;
 import com.certant.vtv.service.impl.VehicleInspectionServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 
@@ -30,26 +28,9 @@ public class VehicleInspectionSeeder {
 
         if(measurementRepository.count() == 0){
             Measurement measurement = new Measurement(null,null,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED);
-            Measurement measurement1 = new Measurement(null,null,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED);
-            Measurement measurement2 = new Measurement(null,null,Condition.APPROVED,Condition.APPROVED,Condition.REJECTED,Condition.APPROVED);
-            Measurement measurement3 = new Measurement(null,null,Condition.APPROVED,Condition.REJECTED,Condition.APPROVED,Condition.APPROVED);
-            Measurement measurement4 = new Measurement(null,null,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED);
-            Measurement measurement5 = new Measurement(null,null,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED);
-            Measurement measurement6 = new Measurement(null,null,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED);
-            Measurement measurement7 = new Measurement(null,null,Condition.APPROVED,Condition.CONDITIONAL,Condition.APPROVED,Condition.APPROVED);
-            Measurement measurement8 = new Measurement(null,null,Condition.CONDITIONAL,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED);
-            Measurement measurement9 = new Measurement(null,null,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED,Condition.APPROVED);
 
             measurementRepository.save(measurement);
-            measurementRepository.save(measurement1);
-            measurementRepository.save(measurement2);
-            measurementRepository.save(measurement3);
-            measurementRepository.save(measurement4);
-            measurementRepository.save(measurement5);
-            measurementRepository.save(measurement6);
-            measurementRepository.save(measurement7);
-            measurementRepository.save(measurement8);
-            measurementRepository.save(measurement9);
+
         }
     }
 
@@ -65,109 +46,11 @@ public class VehicleInspectionSeeder {
                 .description("AS")
                 .build();
 
-        Observation observation1 = Observation.builder()
-                .chassis(Condition.APPROVED)
-                .glasses(Condition.APPROVED)
-                .licensePlate(Condition.APPROVED)
-                .lights(Condition.APPROVED)
-                .securityVehicle(Condition.APPROVED)
-                .mirrors(Condition.APPROVED)
-                .description("AS")
-                .build();
-
-        Observation observation2 = Observation.builder()
-                .chassis(Condition.APPROVED)
-                .glasses(Condition.APPROVED)
-                .licensePlate(Condition.APPROVED)
-                .lights(Condition.APPROVED)
-                .securityVehicle(Condition.APPROVED)
-                .mirrors(Condition.APPROVED)
-                .description("AS")
-                .build();
-
-        Observation observation3 = Observation.builder()
-                .chassis(Condition.APPROVED)
-                .glasses(Condition.APPROVED)
-                .licensePlate(Condition.APPROVED)
-                .lights(Condition.APPROVED)
-                .securityVehicle(Condition.APPROVED)
-                .mirrors(Condition.APPROVED)
-                .description("AS")
-                .build();
-
-        Observation observation4 = Observation.builder()
-                .chassis(Condition.APPROVED)
-                .glasses(Condition.APPROVED)
-                .licensePlate(Condition.APPROVED)
-                .lights(Condition.APPROVED)
-                .securityVehicle(Condition.APPROVED)
-                .mirrors(Condition.APPROVED)
-                .description("AS")
-                .build();
-
-        Observation observation5 = Observation.builder()
-                .chassis(Condition.APPROVED)
-                .glasses(Condition.APPROVED)
-                .licensePlate(Condition.APPROVED)
-                .lights(Condition.APPROVED)
-                .securityVehicle(Condition.APPROVED)
-                .mirrors(Condition.APPROVED)
-                .description("AS")
-                .build();
-
-        Observation observation6 = Observation.builder()
-                .chassis(Condition.APPROVED)
-                .glasses(Condition.APPROVED)
-                .licensePlate(Condition.APPROVED)
-                .lights(Condition.APPROVED)
-                .securityVehicle(Condition.APPROVED)
-                .mirrors(Condition.APPROVED)
-                .description("AS")
-                .build();
-
-        Observation observation7 = Observation.builder()
-                .chassis(Condition.APPROVED)
-                .glasses(Condition.APPROVED)
-                .licensePlate(Condition.APPROVED)
-                .lights(Condition.APPROVED)
-                .securityVehicle(Condition.CONDITIONAL)
-                .mirrors(Condition.APPROVED)
-                .description("AS")
-                .build();
-
-        Observation observation8 = Observation.builder()
-                .chassis(Condition.APPROVED)
-                .glasses(Condition.APPROVED)
-                .licensePlate(Condition.APPROVED)
-                .lights(Condition.APPROVED)
-                .securityVehicle(Condition.APPROVED)
-                .mirrors(Condition.APPROVED)
-                .description("AS")
-                .build();
-
-        Observation observation9 = Observation.builder()
-                .chassis(Condition.APPROVED)
-                .glasses(Condition.APPROVED)
-                .licensePlate(Condition.APPROVED)
-                .lights(Condition.APPROVED)
-                .securityVehicle(Condition.APPROVED)
-                .mirrors(Condition.REJECTED)
-                .description("AS")
-                .build();
 
 
 
         observationRepository.save(observation);
-        observationRepository.save(observation1);
-        observationRepository.save(observation2);
-        observationRepository.save(observation3);
-        observationRepository.save(observation4);
-        observationRepository.save(observation5);
-        observationRepository.save(observation6);
-        observationRepository.save(observation7);
-        observationRepository.save(observation8);
-        observationRepository.save(observation9);
-    }
+
 
     }
 
