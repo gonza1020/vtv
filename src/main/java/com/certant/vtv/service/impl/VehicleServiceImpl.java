@@ -2,7 +2,10 @@ package com.certant.vtv.service.impl;
 
 import com.certant.vtv.dto.VehicleDto;
 import com.certant.vtv.dto.VehicleInspectionDto;
+import com.certant.vtv.model.Car;
 import com.certant.vtv.model.Vehicle;
+import com.certant.vtv.repository.CarRepository;
+import com.certant.vtv.repository.CycleRepository;
 import com.certant.vtv.repository.VehicleRepository;
 import com.certant.vtv.service.VehicleService;
 import lombok.AllArgsConstructor;
@@ -19,16 +22,19 @@ public class VehicleServiceImpl implements VehicleService {
 
     private VehicleInspectionServiceImpl vehicleInspectionService;
     private VehicleRepository vehicleRepository;
+    private CarRepository carRepository;
+    private CycleRepository cycleRepository;
     private ModelMapper modelMapper;
+
 
     @Override
     public Vehicle createVehicle(Vehicle vehicle) {
-
         return vehicleRepository.save(vehicle);
     }
 
+
     @Override
-    public VehicleDto getVehicle(Long id) {
+    public VehicleDto getVehicle(String id) {
 
         Vehicle vehicle = vehicleRepository.findById(id).orElse(null);
 
@@ -51,16 +57,20 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public Vehicle updateVehicle(Long id, Vehicle vehicle) {
+    public Vehicle updateVehicle(String id, Vehicle vehicle) {
         return null;
     }
 
     @Override
-    public void deleteVehicle(Long id) {
+    public void deleteVehicle(String id) {
 
         Vehicle vehicle = vehicleRepository.findById(id).orElse(null);
         assert vehicle != null;
         vehicleRepository.delete(vehicle);
+    }
+
+    public Car createCar(Car car){
+        return vehicleRepository.save(car);
     }
 
     public List<VehicleDto> getVehiclesCondition(String condition){
