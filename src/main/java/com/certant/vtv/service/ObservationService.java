@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface ObservationService {
     Observation createObservation(Observation observation);
-    Observation getObservation(Long id);
+    Observation getObservation(String id);
     List<Observation> getAll();
-    Observation updateObservation(Long id, Observation observation);
-    void deleteObservation(Long id);
+    Observation updateObservation(String id, Observation observation);
+    void deleteObservation(String id);
 }

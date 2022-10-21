@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface InspectorService {
     Inspector createInspector(Inspector inspector);
-    Inspector getInspector(Long id);
+    Inspector getInspector(String id);
     List<Inspector> getAll();
-    Inspector updateInspector(Long id, Inspector inspector);
-    void deleteInspector(Long id);
+    Inspector updateInspector(String id, Inspector inspector);
+    void deleteInspector(String id);
 }

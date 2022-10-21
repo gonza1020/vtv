@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface VehicleInspectionService {
     VehicleInspection createVehicleInspection(VehicleInspection vehicleInspection);
-    VehicleInspectionDto getVehicleInspection(Long id);
+    VehicleInspectionDto getVehicleInspection(String id);
     List<VehicleInspectionDto> getAll();
-    VehicleInspection updateVehicleInspection(Long id, VehicleInspection vehicleInspection);
-    void deleteVehicleInspection(Long id);
+    VehicleInspection updateVehicleInspection(String id, VehicleInspection vehicleInspection);
+    void deleteVehicleInspection(String id);
 }
