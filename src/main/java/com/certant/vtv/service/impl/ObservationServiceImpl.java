@@ -23,7 +23,7 @@ public class ObservationServiceImpl implements ObservationService {
     }
 
     @Override
-    public Observation getObservation(Long id) {
+    public Observation getObservation(String id) {
         Optional<Observation> observation = observationRepository.findById(id);
         return observation.orElse(null);
     }
@@ -34,12 +34,12 @@ public class ObservationServiceImpl implements ObservationService {
     }
 
     @Override
-    public Observation updateObservation(Long id, Observation observation) {
+    public Observation updateObservation(String id, Observation observation) {
         return null;
     }
 
     @Override
-    public void deleteObservation(Long id) {
+    public void deleteObservation(String id) {
 
         Observation observation = observationRepository.findById(id).orElse(null);
 

@@ -25,12 +25,12 @@ public class MeasurementController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Measurement> updateMeasurement( @PathVariable  Long id,@RequestBody  Measurement measurement){
+    ResponseEntity<Measurement> updateMeasurement( @PathVariable  String id,@RequestBody  Measurement measurement){
         return new ResponseEntity<>(measurementService.updateMeasurement(id,measurement), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Measurement> getMeasurement( @PathVariable  Long id){
+    ResponseEntity<Measurement> getMeasurement( @PathVariable  String id){
         return new ResponseEntity<>(measurementService.getMeasurement(id), HttpStatus.OK);
     }
 
@@ -40,7 +40,7 @@ public class MeasurementController {
     }
 
     @DeleteMapping("{id}")
-    ResponseEntity<?> deleteMeasurement(@PathVariable Long id){
+    ResponseEntity<?> deleteMeasurement(@PathVariable String id){
         measurementService.deleteMeasurement(id);
         return ResponseEntity.noContent().build();
     }

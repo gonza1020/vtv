@@ -26,13 +26,13 @@ public class CostumerController {
     @Operation(summary = "Update costumer")
 
     @PutMapping("/{id}")
-    ResponseEntity<Costumer> updateCostumer( @PathVariable  Long id,@RequestBody  Costumer costumer){
+    ResponseEntity<Costumer> updateCostumer( @PathVariable  String id,@RequestBody  Costumer costumer){
         return new ResponseEntity<>(costumerService.updateCostumer(id,costumer), HttpStatus.ACCEPTED);
     }
 
     @Operation(summary = "get costumer")
     @GetMapping("/{id}")
-    ResponseEntity<Costumer> getCostumer( @PathVariable  Long id){
+    ResponseEntity<Costumer> getCostumer( @PathVariable  String id){
         return new ResponseEntity<>(costumerService.getCostumer(id), HttpStatus.ACCEPTED);
     }
 
@@ -44,7 +44,7 @@ public class CostumerController {
 
     @Operation(summary = "Delete costumer")
     @DeleteMapping("{id}")
-    ResponseEntity<?> deleteCostumer(@PathVariable Long id){
+    ResponseEntity<?> deleteCostumer(@PathVariable String id){
         costumerService.deleteCostumer(id);
         return ResponseEntity.noContent().build();
     }

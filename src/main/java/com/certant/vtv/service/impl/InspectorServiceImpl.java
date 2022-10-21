@@ -21,7 +21,7 @@ public class InspectorServiceImpl implements InspectorService {
     }
 
     @Override
-    public Inspector getInspector(Long id) {
+    public Inspector getInspector(String id) {
 
         Optional<Inspector> inspector = inspectorRepository.findById(id);
 
@@ -35,12 +35,12 @@ public class InspectorServiceImpl implements InspectorService {
     }
 
     @Override
-    public Inspector updateInspector(Long id, Inspector inspector) {
+    public Inspector updateInspector(String id, Inspector inspector) {
         return null;
     }
 
     @Override
-    public void deleteInspector(Long id) {
+    public void deleteInspector(String id) {
 
         Inspector inspector = inspectorRepository.findById(id).orElse(null);
 

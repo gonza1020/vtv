@@ -27,13 +27,13 @@ public class InspectorController {
     @Operation(summary = "Update inspector")
 
     @PutMapping("/{id}")
-    ResponseEntity<Inspector> updateInspector( @PathVariable  Long id,@RequestBody  Inspector inspector){
+    ResponseEntity<Inspector> updateInspector( @PathVariable  String id,@RequestBody  Inspector inspector){
         return new ResponseEntity<>(inspectorService.updateInspector(id,inspector), HttpStatus.OK);
     }
 
     @Operation(summary = "get inspector")
     @GetMapping("/{id}")
-    ResponseEntity<Inspector> getCostumer( @PathVariable  Long id){
+    ResponseEntity<Inspector> getCostumer( @PathVariable  String id){
         return new ResponseEntity<>(inspectorService.getInspector(id), HttpStatus.OK);
     }
 
@@ -45,7 +45,7 @@ public class InspectorController {
 
     @Operation(summary = "delete inspector")
     @DeleteMapping("{id}")
-    ResponseEntity<?> deleteCostumer(@PathVariable Long id){
+    ResponseEntity<?> deleteCostumer(@PathVariable String id){
         inspectorService.deleteInspector(id);
         return ResponseEntity.noContent().build();
     }

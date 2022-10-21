@@ -16,7 +16,7 @@ import javax.persistence.Entity;
 @Setter
 @SuperBuilder
 @Entity
-@DiscriminatorValue(value = "Car")
+@DiscriminatorValue(value = "CAR")
 public class Car extends Vehicle{
 
     private String carType;

@@ -26,12 +26,12 @@ public class ObservationController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Observation> updateObservation( @PathVariable  Long id,@RequestBody  Observation observation){
+    ResponseEntity<Observation> updateObservation( @PathVariable  String id,@RequestBody  Observation observation){
         return new ResponseEntity<>(observationService.updateObservation(id,observation), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Observation> getCostumer( @PathVariable  Long id){
+    ResponseEntity<Observation> getCostumer( @PathVariable  String id){
         return new ResponseEntity<>(observationService.getObservation(id), HttpStatus.OK);
     }
 
@@ -41,7 +41,7 @@ public class ObservationController {
     }
 
     @DeleteMapping("{id}")
-    ResponseEntity<?> deleteCostumer(@PathVariable Long id){
+    ResponseEntity<?> deleteCostumer(@PathVariable String id){
         observationService.deleteObservation(id);
         return ResponseEntity.noContent().build();
     }

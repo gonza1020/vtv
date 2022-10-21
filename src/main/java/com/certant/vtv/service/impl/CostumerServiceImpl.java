@@ -21,7 +21,7 @@ public class CostumerServiceImpl implements CostumerService {
     }
 
     @Override
-    public Costumer getCostumer(Long id) {
+    public Costumer getCostumer(String id) {
         Optional<Costumer> costumer = costumerRepository.findById(id);
 
         return costumer.orElse(null);
@@ -33,12 +33,12 @@ public class CostumerServiceImpl implements CostumerService {
     }
 
     @Override
-    public Costumer updateCostumer(Long id, Costumer costumer) {
+    public Costumer updateCostumer(String id, Costumer costumer) {
         return null;
     }
 
     @Override
-    public void deleteCostumer(Long id) {
+    public void deleteCostumer(String id) {
         Costumer costumer = costumerRepository.findById(id).orElse(null);
 
         assert costumer != null;

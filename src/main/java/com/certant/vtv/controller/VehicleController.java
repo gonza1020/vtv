@@ -34,16 +34,15 @@ public class VehicleController {
     }
 
     @Operation(summary = "update vehicle")
-
     @PutMapping("/{id}")
-    ResponseEntity<Vehicle> updateVehicle( @PathVariable  Long id,@RequestBody  Vehicle vehicle){
+    ResponseEntity<Vehicle> updateVehicle( @PathVariable  String id,@RequestBody  Vehicle vehicle){
         return new ResponseEntity<>(vehicleService.updateVehicle(id,vehicle), HttpStatus.ACCEPTED);
     }
 
 
     @Operation(summary = "get vehicle")
     @GetMapping("/{id}")
-    ResponseEntity<VehicleDto> getVehicle( @PathVariable  Long id){
+    ResponseEntity<VehicleDto> getVehicle( @PathVariable  String id){
         return new ResponseEntity<>(vehicleService.getVehicle(id), HttpStatus.OK);
     }
 
@@ -62,7 +61,7 @@ public class VehicleController {
 
     @Operation(summary = "delete vehicle")
     @DeleteMapping("{id}")
-    ResponseEntity<?> deleteCostumer(@PathVariable Long id){
+    ResponseEntity<?> deleteCostumer(@PathVariable String id){
         vehicleService.deleteVehicle(id);
         return ResponseEntity.noContent().build();
     }

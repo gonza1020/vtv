@@ -23,7 +23,7 @@ public class MeasureServiceImpl implements MeasurementService {
     }
 
     @Override
-    public Measurement getMeasurement(Long id) {
+    public Measurement getMeasurement(String id) {
         Optional<Measurement> measurement = measurementRepository.findById(id);
         return measurement.orElse(null);
     }
@@ -34,12 +34,12 @@ public class MeasureServiceImpl implements MeasurementService {
     }
 
     @Override
-    public Measurement updateMeasurement(Long id, Measurement measurement) {
+    public Measurement updateMeasurement(String id, Measurement measurement) {
         return null;
     }
 
     @Override
-    public void deleteMeasurement(Long id) {
+    public void deleteMeasurement(String id) {
 
         Measurement measurement = measurementRepository.findById(id).orElse(null);
 
