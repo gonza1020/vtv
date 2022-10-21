@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -18,12 +19,11 @@ import javax.persistence.*;
 public class Measurement {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
     @JsonIgnore
-    @OneToOne(targetEntity = VehicleInspection.class,fetch = FetchType.EAGER)
-    @JoinColumn(name = "inspection_id",referencedColumnName = "id")
+    @OneToOne(mappedBy = "measurement",targetEntity = VehicleInspection.class,fetch = FetchType.EAGER)
     private VehicleInspection vehicleInspection;
 
     @Enumerated(EnumType.STRING)

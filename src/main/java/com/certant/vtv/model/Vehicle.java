@@ -1,12 +1,12 @@
 package com.certant.vtv.model;
 
-import com.certant.vtv.dto.PersonDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -26,8 +26,9 @@ discriminatorType = DiscriminatorType.STRING)
 public class Vehicle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
     @Pattern(regexp = "[A-Za-z]{3}[\\d]{3}|[A-Za-z]{2}[\\d]{3}[A-Za-z]{2}", message = "Patente incorrecta. Los formatos validos son: ABC123 o AB123CD")
     private String licensePlate;

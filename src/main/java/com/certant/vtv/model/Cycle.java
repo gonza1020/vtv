@@ -15,7 +15,7 @@ import javax.persistence.Entity;
 @Setter
 @SuperBuilder
 @Entity
-@DiscriminatorValue("Cycle")
+@DiscriminatorValue("CYCLE")
 public class Cycle extends Vehicle{
     private String cc;
 }

@@ -4,6 +4,7 @@ package com.certant.vtv.model;
 import com.certant.vtv.utils.Condition;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -16,13 +17,13 @@ import javax.persistence.*;
 public class Observation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
     @Enumerated(EnumType.STRING)
 
     @JsonIgnore
-    @OneToOne(targetEntity = VehicleInspection.class,fetch = FetchType.EAGER)
-    @JoinColumn(name = "inspection_id",referencedColumnName = "id")
+    @OneToOne(mappedBy = "observation",targetEntity = VehicleInspection.class,fetch = FetchType.EAGER)
     private VehicleInspection vehicleInspection;
 
     private Condition lights;
