@@ -3,13 +3,19 @@ package com.certant.vtv.service.impl;
 
 import com.certant.vtv.dto.VehicleDto;
 import com.certant.vtv.dto.VehicleInspectionDto;
+import com.certant.vtv.dto.VehicleTypeDto;
 import com.certant.vtv.model.Measurement;
 import com.certant.vtv.model.Observation;
+import com.certant.vtv.model.Tariff;
 import com.certant.vtv.model.VehicleInspection;
+import com.certant.vtv.repository.TariffRepository;
 import com.certant.vtv.repository.VehicleInspectionRepository;
+import com.certant.vtv.repository.VehicleRepository;
 import com.certant.vtv.service.VehicleInspectionService;
 import com.certant.vtv.utils.Condition;
+import com.certant.vtv.utils.VehicleType;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +25,12 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class VehicleInspectionServiceImpl implements VehicleInspectionService {
 
     private VehicleInspectionRepository vehicleInspectionRepository;
+    private TariffRepository tariffRepository;
+    private VehicleRepository vehicleRepository;
     private ObservationServiceImpl observationService;
     private MeasureServiceImpl measureService;
     private ModelMapper modelMapper;
@@ -34,11 +43,12 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
         setState(observation,measurement,vehicleInspection);
         vehicleInspection.setInspectionDate(LocalDate.now());
         setExpirationDate(vehicleInspection);
+        setCost(vehicleInspection);
         return vehicleInspectionRepository.save(vehicleInspection);
     }
 
     @Override
-    public VehicleInspectionDto getVehicleInspection(Long id) {
+    public VehicleInspectionDto getVehicleInspection(String id) {
 
         ModelMapper mapper = new ModelMapper();
         VehicleInspection vehicleInspection = vehicleInspectionRepository.findById(id).orElse(null);
@@ -68,18 +78,19 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
             vehicleInspectionDto.setCostumerType(vehicleInspection.getVehicle().getCostumer().getCostumerType());
             vehicleInspectionDto.setInspectorName(vehicleInspection.getInspector().getName() + " " + vehicleInspection.getInspector().getLastName());
             vehicleInspectionDto.setVehicleDto(vehicleDto);
+            vehicleInspectionDto.setInspectionState(vehicleInspection.getConditionn());
             vehicleInspectionDtos.add(vehicleInspectionDto);
         });
         return vehicleInspectionDtos;
     }
 
     @Override
-    public VehicleInspection updateVehicleInspection(Long id, VehicleInspection vehicleInspection) {
+    public VehicleInspection updateVehicleInspection(String id, VehicleInspection vehicleInspection) {
         return null;
     }
 
     @Override
-    public void deleteVehicleInspection(Long id) {
+    public void deleteVehicleInspection(String id) {
         VehicleInspection vehicleInspection = vehicleInspectionRepository.findById(id).orElse(null);
         assert vehicleInspection != null;
         vehicleInspectionRepository.delete(vehicleInspection);
@@ -90,22 +101,35 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
        Condition measCondition = measureService.validateMeasurements(measureService.checkMeasurements(measurement));
 
        if(obsCondition == Condition.APPROVED && measCondition == Condition.APPROVED){
-           vehicleInspection.setCondition(Condition.APPROVED);
+           vehicleInspection.setConditionn(Condition.APPROVED);
        } else if (obsCondition == Condition.REJECTED || measCondition == Condition.REJECTED) {
-           vehicleInspection.setCondition(Condition.REJECTED);
+           vehicleInspection.setConditionn(Condition.REJECTED);
        }else{
-           vehicleInspection.setCondition(Condition.CONDITIONAL);
+           vehicleInspection.setConditionn(Condition.CONDITIONAL);
        }
     }
     
     
     // This method calculate the expiration date of the verification
     private void setExpirationDate(VehicleInspection vehicleInspection){
-        if(vehicleInspection.getCondition() == Condition.APPROVED){
+        if(vehicleInspection.getConditionn() == Condition.APPROVED){
             vehicleInspection.setExpirationDate(LocalDate.now().plusYears(1));
             //TODO: SOME METHOD TO PRINT THE TICKET
-        } else if (vehicleInspection.getCondition() == Condition.CONDITIONAL) {
+        } else if (vehicleInspection.getConditionn() == Condition.CONDITIONAL) {
             vehicleInspection.setExpirationDate(LocalDate.now().plusMonths(2));
+        }
+    }
+
+    private void setCost(VehicleInspection vehicleInspection){
+        if(vehicleInspection.getConditionn() == Condition.APPROVED){
+
+            log.info("Vehicle id: " + vehicleInspection.getVehicle().getId());
+            VehicleTypeDto vehicleTypeDto =  vehicleRepository.findByVehicleType(vehicleInspection.getVehicle().getId());
+            String vehicleType = vehicleTypeDto.getVehicleType();
+            log.info("Vehicle type: " + vehicleType);
+            Tariff tariff = tariffRepository.findByVehicleType(VehicleType.valueOf(vehicleType));
+            log.info("Tarifa: " + tariff.getCost());
+            vehicleInspection.setCost(tariff.getCost());
         }
     }
 }
