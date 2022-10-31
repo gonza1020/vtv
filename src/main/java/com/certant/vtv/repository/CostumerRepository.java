@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CostumerRepository extends JpaRepository<Costumer,String> {
     Costumer findByName(String name);
+    Costumer findByDni(String dni);
 
 }

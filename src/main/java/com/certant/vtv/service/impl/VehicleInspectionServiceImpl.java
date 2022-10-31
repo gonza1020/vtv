@@ -13,6 +13,7 @@ import com.certant.vtv.repository.VehicleInspectionRepository;
 import com.certant.vtv.repository.VehicleRepository;
 import com.certant.vtv.service.VehicleInspectionService;
 import com.certant.vtv.utils.Condition;
+import com.certant.vtv.utils.CostumerType;
 import com.certant.vtv.utils.VehicleType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
     private VehicleRepository vehicleRepository;
     private ObservationServiceImpl observationService;
     private MeasureServiceImpl measureService;
+
     private ModelMapper modelMapper;
 
 
@@ -51,13 +53,12 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
     public VehicleInspectionDto getVehicleInspection(String id) {
 
         ModelMapper mapper = new ModelMapper();
-        VehicleInspection vehicleInspection = vehicleInspectionRepository.findById(id).orElse(null);
 
+        VehicleInspection vehicleInspection = vehicleInspectionRepository.findById(id).orElse(null);
+        checkCondition(vehicleInspection);
         VehicleInspectionDto vehicleInspectionDto = mapper.map(vehicleInspection,VehicleInspectionDto.class);
         VehicleDto vehicleDto = mapper.map(vehicleInspection.getVehicle(),VehicleDto.class);
         vehicleDto.setOwner(vehicleInspection.getVehicle().getCostumer().getName() + " " + vehicleInspection.getVehicle().getCostumer().getLastName());
-
-
         vehicleInspectionDto.setCostumerType(vehicleInspection.getVehicle().getCostumer().getCostumerType());
         vehicleInspectionDto.setInspectorName(vehicleInspection.getInspector().getName() + " " + vehicleInspection.getInspector().getLastName());
         vehicleInspectionDto.setVehicleDto(vehicleDto);
@@ -117,19 +118,30 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
             //TODO: SOME METHOD TO PRINT THE TICKET
         } else if (vehicleInspection.getConditionn() == Condition.CONDITIONAL) {
             vehicleInspection.setExpirationDate(LocalDate.now().plusMonths(2));
+            vehicleInspection.getVehicle().getCostumer().setCostumerType(CostumerType.EXEMPT);
         }
     }
 
     private void setCost(VehicleInspection vehicleInspection){
-        if(vehicleInspection.getConditionn() == Condition.APPROVED){
+        if(!(vehicleInspection.getConditionn() == Condition.REJECTED) ){
+            CostumerType costumerType = vehicleInspection.getVehicle().getCostumer().getCostumerType();
+            if(costumerType == CostumerType.NORMAL){
+                log.info("Vehicle id: " + vehicleInspection.getVehicle().getId());
+                VehicleTypeDto vehicleTypeDto =  vehicleRepository.findByVehicleType(vehicleInspection.getVehicle().getId());
+                String vehicleType = vehicleTypeDto.getVehicleType();
+                log.info("Vehicle type: " + vehicleType);
+                Tariff tariff = tariffRepository.findByVehicleType(VehicleType.valueOf(vehicleType));
+                log.info("Tarifa: " + tariff.getCost());
+                vehicleInspection.setCost(tariff.getCost());
+            }
+        }
+    }
 
-            log.info("Vehicle id: " + vehicleInspection.getVehicle().getId());
-            VehicleTypeDto vehicleTypeDto =  vehicleRepository.findByVehicleType(vehicleInspection.getVehicle().getId());
-            String vehicleType = vehicleTypeDto.getVehicleType();
-            log.info("Vehicle type: " + vehicleType);
-            Tariff tariff = tariffRepository.findByVehicleType(VehicleType.valueOf(vehicleType));
-            log.info("Tarifa: " + tariff.getCost());
-            vehicleInspection.setCost(tariff.getCost());
+    private void checkCondition(VehicleInspection vehicleInspection){
+        if(LocalDate.now().isAfter(vehicleInspection.getExpirationDate())){
+            vehicleInspection.setConditionn(Condition.REJECTED);
+            vehicleInspection.getVehicle().getCostumer().setCostumerType(CostumerType.NORMAL);
+            vehicleInspectionRepository.save(vehicleInspection);
         }
     }
 }

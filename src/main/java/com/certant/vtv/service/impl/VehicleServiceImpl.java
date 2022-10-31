@@ -1,8 +1,11 @@
 package com.certant.vtv.service.impl;
 
+import com.certant.vtv.dto.VTypeDto;
 import com.certant.vtv.dto.VehicleDto;
 import com.certant.vtv.dto.VehicleInspectionDto;
+import com.certant.vtv.dto.VehicleTypeDto;
 import com.certant.vtv.model.Car;
+import com.certant.vtv.model.Cycle;
 import com.certant.vtv.model.Vehicle;
 import com.certant.vtv.repository.CarRepository;
 import com.certant.vtv.repository.CycleRepository;
@@ -11,6 +14,7 @@ import com.certant.vtv.service.VehicleService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +39,8 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDto getVehicle(String id) {
-
         Vehicle vehicle = vehicleRepository.findById(id).orElse(null);
-
-        VehicleDto vehicleDto = modelMapper.map(vehicle, VehicleDto.class);
-        vehicleDto.setOwner(vehicle.getCostumer().getName() + " " + vehicle.getCostumer().getLastName());
-
-        return vehicleDto;
+        return mapVehicle(vehicle);
     }
 
     @Override
@@ -49,15 +48,26 @@ public class VehicleServiceImpl implements VehicleService {
         List<VehicleDto> vehicleDtos = new ArrayList<>();
 
         vehicleRepository.findAll().forEach(vehicle -> {
-            VehicleDto vehicleDto = modelMapper.map(vehicle, VehicleDto.class);
-            vehicleDto.setOwner(vehicle.getCostumer().getName() + " " + vehicle.getCostumer().getLastName());
-            vehicleDtos.add(vehicleDto);
+            vehicleDtos.add(mapVehicle(vehicle));
         });
         return vehicleDtos;
     }
 
     @Override
-    public Vehicle updateVehicle(String id, Vehicle vehicle) {
+    public Vehicle updateVehicle(String id, VTypeDto vehicle) {
+        VehicleTypeDto vehicleTypeDto = vehicleRepository.findByVehicleType(id);
+        System.out.println(vehicleTypeDto.getVehicleType());
+        if(vehicleTypeDto.getVehicleType().equals("CAR")){
+
+            Car car = modelMapper.map(vehicle, Car.class);
+            car.setId(id);
+            return  vehicleRepository.save(car);
+        }
+        if(vehicleTypeDto.getVehicleType().equals("CYCLE")){
+            Cycle cycle = modelMapper.map(vehicle, Cycle.class);
+            cycle.setId(id);
+            return vehicleRepository.save(cycle);
+        }
         return null;
     }
 
@@ -69,8 +79,14 @@ public class VehicleServiceImpl implements VehicleService {
         vehicleRepository.delete(vehicle);
     }
 
+    public VehicleDto findByLicensePlate(String licensePlate){
+        return mapVehicle(vehicleRepository.findByLicensePlate(licensePlate));
+    }
     public Car createCar(Car car){
         return vehicleRepository.save(car);
+    }
+    public Cycle createCycle(Cycle cycle) {
+        return  vehicleRepository.save(cycle);
     }
 
     public List<VehicleDto> getVehiclesCondition(String condition){
@@ -84,6 +100,12 @@ public class VehicleServiceImpl implements VehicleService {
             vehicleDtos.add(vehicleInspectionDto.getVehicleDto());
         });
         return vehicleDtos;
+    }
+
+    public VehicleDto mapVehicle(Vehicle vehicle){
+        VehicleDto vehicleDto = modelMapper.map(vehicle, VehicleDto.class);
+        vehicleDto.setOwner(vehicle.getCostumer().getName() + " " + vehicle.getCostumer().getLastName());
+        return vehicleDto;
     }
 
 }

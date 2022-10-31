@@ -40,8 +40,11 @@ public class CostumerServiceImpl implements CostumerService {
     @Override
     public void deleteCostumer(String id) {
         Costumer costumer = costumerRepository.findById(id).orElse(null);
-
         assert costumer != null;
         costumerRepository.delete(costumer);
+    }
+
+    public Costumer findByDni(String dni){
+        return costumerRepository.findByDni(dni);
     }
 }

@@ -13,4 +13,5 @@ public interface VehicleRepository extends JpaRepository<Vehicle,String> {
             value = "SELECT v.vehicle_type as vehicleType FROM vehicle v WHERE v.id = :id",
     nativeQuery = true)
     VehicleTypeDto findByVehicleType(String id);
+    Vehicle findByLicensePlate(String licensePlate);
 }

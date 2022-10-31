@@ -1,3 +1,4 @@
+/*
 package com.certant.vtv.seeders;
 
 import com.certant.vtv.model.Inspector;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class SeedData implements CommandLineRunner {
 
-    private InspectorRepository inspectorRepository;
     private PersonSeeder personSeeder;
     private VehicleSeedData vehicleSeedData;
     private VehicleDataSeeder vehicleDataSeeder;
@@ -24,10 +24,14 @@ public class SeedData implements CommandLineRunner {
         personSeeder.saveCostumer();
         personSeeder.saveInspector();
         vehicleSeedData.saveVehicles();
-        /*vehicleInspectionSeeder.saveObservation();
+        */
+/*vehicleInspectionSeeder.saveObservation();
         vehicleInspectionSeeder.saveMeasurement();
-        vehicleInspectionSeeder.saveInspection();*/
+        vehicleInspectionSeeder.saveInspection();*//*
+
+
 
     }
 
 }
+*/
