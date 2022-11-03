@@ -7,27 +7,24 @@ import com.certant.vtv.dto.VehicleTypeDto;
 import com.certant.vtv.model.Car;
 import com.certant.vtv.model.Cycle;
 import com.certant.vtv.model.Vehicle;
-import com.certant.vtv.repository.CarRepository;
-import com.certant.vtv.repository.CycleRepository;
 import com.certant.vtv.repository.VehicleRepository;
 import com.certant.vtv.service.VehicleService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @AllArgsConstructor
 public class VehicleServiceImpl implements VehicleService {
 
+
     private VehicleInspectionServiceImpl vehicleInspectionService;
     private VehicleRepository vehicleRepository;
-    private CarRepository carRepository;
-    private CycleRepository cycleRepository;
     private ModelMapper modelMapper;
 
 
@@ -46,7 +43,6 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public List<VehicleDto> getAll() {
         List<VehicleDto> vehicleDtos = new ArrayList<>();
-
         vehicleRepository.findAll().forEach(vehicle -> {
             vehicleDtos.add(mapVehicle(vehicle));
         });
@@ -55,18 +51,20 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Vehicle updateVehicle(String id, VTypeDto vehicle) {
-        VehicleTypeDto vehicleTypeDto = vehicleRepository.findByVehicleType(id);
-        System.out.println(vehicleTypeDto.getVehicleType());
-        if(vehicleTypeDto.getVehicleType().equals("CAR")){
+        VehicleTypeDto vehicleTypeDto = vehicleRepository.findByVehicleType(id).orElse(null);
 
-            Car car = modelMapper.map(vehicle, Car.class);
-            car.setId(id);
-            return  vehicleRepository.save(car);
-        }
-        if(vehicleTypeDto.getVehicleType().equals("CYCLE")){
-            Cycle cycle = modelMapper.map(vehicle, Cycle.class);
-            cycle.setId(id);
-            return vehicleRepository.save(cycle);
+        if(vehicleTypeDto != null){
+            String vehicleType = vehicleTypeDto.getVehicleType();
+            if (vehicleType.equals("CAR")) {
+                Car car = modelMapper.map(vehicle, Car.class);
+                car.setId(id);
+                return vehicleRepository.save(car);
+            }
+            if (vehicleType.equals("CYCLE")) {
+                Cycle cycle = modelMapper.map(vehicle, Cycle.class);
+                cycle.setId(id);
+                return vehicleRepository.save(cycle);
+            }
         }
         return null;
     }
@@ -79,17 +77,19 @@ public class VehicleServiceImpl implements VehicleService {
         vehicleRepository.delete(vehicle);
     }
 
-    public VehicleDto findByLicensePlate(String licensePlate){
+    public VehicleDto findByLicensePlate(String licensePlate) {
         return mapVehicle(vehicleRepository.findByLicensePlate(licensePlate));
     }
-    public Car createCar(Car car){
+
+    public Car createCar(Car car) {
         return vehicleRepository.save(car);
     }
+
     public Cycle createCycle(Cycle cycle) {
-        return  vehicleRepository.save(cycle);
+        return vehicleRepository.save(cycle);
     }
 
-    public List<VehicleDto> getVehiclesCondition(String condition){
+    public List<VehicleDto> getVehiclesCondition(String condition) {
         List<VehicleInspectionDto> vehicleInspectionDtos = vehicleInspectionService.getAll();
         List<VehicleDto> vehicleDtos = new ArrayList<>();
         List<VehicleInspectionDto> vehicleInspectionDtos1 = vehicleInspectionDtos.stream()
@@ -102,7 +102,7 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleDtos;
     }
 
-    public VehicleDto mapVehicle(Vehicle vehicle){
+    private VehicleDto mapVehicle(Vehicle vehicle) {
         VehicleDto vehicleDto = modelMapper.map(vehicle, VehicleDto.class);
         vehicleDto.setOwner(vehicle.getCostumer().getName() + " " + vehicle.getCostumer().getLastName());
         return vehicleDto;

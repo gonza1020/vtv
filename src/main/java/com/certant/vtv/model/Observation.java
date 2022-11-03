@@ -20,12 +20,12 @@ public class Observation {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    @Enumerated(EnumType.STRING)
 
     @JsonIgnore
     @OneToOne(mappedBy = "observation",targetEntity = VehicleInspection.class,fetch = FetchType.EAGER)
     private VehicleInspection vehicleInspection;
 
+    @Enumerated(EnumType.STRING)
     private Condition lights;
     @Enumerated(EnumType.STRING)
     private Condition licensePlate;

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -98,6 +99,7 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
     }
 
     private void setState(Observation observation, Measurement measurement, VehicleInspection vehicleInspection){
+
        Condition obsCondition = observationService.validateObservations(observationService.checkObservations(observation));
        Condition measCondition = measureService.validateMeasurements(measureService.checkMeasurements(measurement));
 
@@ -127,12 +129,15 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
             CostumerType costumerType = vehicleInspection.getVehicle().getCostumer().getCostumerType();
             if(costumerType == CostumerType.NORMAL){
                 log.info("Vehicle id: " + vehicleInspection.getVehicle().getId());
-                VehicleTypeDto vehicleTypeDto =  vehicleRepository.findByVehicleType(vehicleInspection.getVehicle().getId());
-                String vehicleType = vehicleTypeDto.getVehicleType();
-                log.info("Vehicle type: " + vehicleType);
-                Tariff tariff = tariffRepository.findByVehicleType(VehicleType.valueOf(vehicleType));
-                log.info("Tarifa: " + tariff.getCost());
-                vehicleInspection.setCost(tariff.getCost());
+                VehicleTypeDto vehicleTypeDto =  vehicleRepository.findByVehicleType(vehicleInspection.getVehicle().getId()).orElse(null);
+                if(vehicleTypeDto != null){
+                    String vehicleType = vehicleTypeDto.getVehicleType();
+                    log.info("Vehicle type: " + vehicleType);
+                    Tariff tariff = tariffRepository.findByVehicleType(VehicleType.valueOf(vehicleType));
+                    log.info("Tarifa: " + tariff.getCost());
+                    vehicleInspection.setCost(tariff.getCost());
+                }
+
             }
         }
     }

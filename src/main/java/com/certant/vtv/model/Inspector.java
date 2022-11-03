@@ -17,7 +17,7 @@ import java.util.List;
 public class Inspector extends Person{
 
 
-    private Long legajo;
+    private String legajo;
     @JsonIgnore
     @OneToMany(targetEntity = VehicleInspection.class, mappedBy = "inspector")
     private List<VehicleInspection> vehicleInspection;
